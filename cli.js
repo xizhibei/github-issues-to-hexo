@@ -12,9 +12,9 @@ const issue2Blog = require('./');
 
 program
     .version(pkg.version)
-    .option('-u, --user [user]', 'User name', String, 'xizhibei')
-    .option('-r, --repo [repo]', 'Repo name', String, 'blog')
-    .option('-d, --dir [dir]', 'Output dir', String, 'source/_posts/')
+    .option('-u, --user [user]', 'User name')
+    .option('-r, --repo [repo]', 'Repo name')
+    .option('-d, --dir [dir]', 'Output dir, default: "source/_posts/"', String, 'source/_posts/')
     .parse(process.argv);
 
 debug(`Args: user ${program.user}, repo ${program.repo}`);
