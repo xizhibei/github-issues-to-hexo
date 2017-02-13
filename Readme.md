@@ -9,16 +9,17 @@ npm install github-issues-to-blog -g
 
 ## Usage
 
-Set output of this:
+See output of help:
 
 ```shell
 github-issues-to-hexo --help
 ```
 
 Or, example:
+
 ```shell
 cd /path/to/hexo-blog-source/
-github-issues-to-hexo -u <github user> -u <github repo> -d source/_posts/
+github-issues-to-hexo -u <github-username> -u <github-repo> -d source/_posts/
 ```
 
 
