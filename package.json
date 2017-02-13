@@ -1,0 +1,40 @@
+{
+  "name": "github-issues-to-hexo",
+  "version": "1.0.0",
+  "description": "Convert github issues blog to hexo blog",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "issues",
+    "github",
+    "hexo",
+    "blog"
+  ],
+  "author": "Zhipei Xu <xizhipei@gmail.com>",
+  "license": "MIT",
+  "bin": {
+    "github-issues-to-hexo": "cli.js"
+  },
+  "engines": {
+    "node": ">=7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xizhibei/github-issues-to-hexo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xizhibei/github-issues-to-hexo/issues"
+  },
+  "dependencies": {
+    "commander": "^2.9.0",
+    "common-tags": "^1.4.0",
+    "debug": "^2.6.1",
+    "moment": "^2.17.1",
+    "pangu": "^3.3.0",
+    "pinyin": "^2.8.0",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1"
+  }
+}
