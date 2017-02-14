@@ -15,11 +15,14 @@
   "author": "Zhipei Xu <xizhipei@gmail.com>",
   "license": "MIT",
   "bin": {
-    "github-issues-to-hexo": "cli.js"
+    "github-issues-to-hexo": "cli.js",
+    "gi2hexo": "cli.js"
   },
   "engines": {
     "node": ">=7"
   },
+  "preferGlobal": true,
+  "homepage": "https://github.com/xizhibei/github-issues-to-hexo",
   "repository": {
     "type": "git",
     "url": "https://github.com/xizhibei/github-issues-to-hexo.git"
