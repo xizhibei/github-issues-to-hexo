@@ -1,39 +1,41 @@
 'use strict';
 
 const fs = require('fs');
+
 const moment = require('moment');
 const pinyin = require('pinyin');
 const pangu = require('pangu');
-const commonTags = require('common-tags');
+const Mustache = require('mustache');
 const rp = require('request-promise');
+
 const debug = require('debug')('githubIssue2Blog');
 
-exports.writeFiles = function writeFiles(dir, blogs) {
-  for (const blog of blogs) {
-    const tags = blog.labels.map(l => l.name).join(',');
-    const date = moment(blog.created_at).format('YYYY-MM-DD HH:mm:ss');
+exports.writeFiles = function writeFiles(templateFile, dir, posts) {
+  const template = fs.readFileSync(templateFile).toString();
+  Mustache.parse(template);
 
-    const pinyinTitle = pinyin(blog.title, {
+  for (const post of posts) {
+    const tags = post.labels.map(l => l.name).join(',');
+    const date = moment(post.created_at).format('YYYY-MM-DD HH:mm:ss');
+
+    const pinyinTitle = pinyin(post.title, {
       style: pinyin.STYLE_NORMAL,
-    })
+    });
 
     const title = pinyinTitle
       .map(t => t[0]).join('-')
       .replace(/\s/g, '-')
       .toLowerCase();
 
-    console.log('Title', blog.title, title);
+    console.log('Title', post.title, title);
 
-    const content = commonTags.stripIndents `
-		---
-		title: ${blog.title}
-		date: ${date}
-		tags: [${tags}]
-		original_url: ${blog.url}
-		author: ${blog.user.login}
-		---
-		${blog.body}
-		`;
+    const content = Mustache.render(
+      template, {
+        date,
+        tags,
+        post,
+      }
+    );
 
     fs.writeFileSync(`${dir}/${title}.md`, pangu.spacing(content));
   }

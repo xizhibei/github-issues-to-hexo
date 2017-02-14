@@ -9,19 +9,32 @@ npm install github-issues-to-blog -g
 
 ## Usage
 
-See output of help:
+Get help:
 
 ```shell
 github-issues-to-hexo --help
 ```
 
-Or, example:
+Convert your blog:
 
 ```shell
 cd /path/to/hexo-blog-source/
-github-issues-to-hexo -u <github-username> -u <github-repo> -d source/_posts/
+github-issues-to-hexo -u github-username -u github-repo
 ```
 
+Using template:
+```shell
+cd /path/to/hexo-blog-source/
+
+# init template
+github-issues-to-hexo init your-template.md
+
+# edit your template
+vim your-template.md
+
+# convert your blog
+github-issues-to-hexo -u github-username -u github-repo -t your-template.md
+```
 
 ## License
 
