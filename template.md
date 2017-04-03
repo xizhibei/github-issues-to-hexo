@@ -1,10 +1,10 @@
 ---
-title: {{ blog.title }}
+title: {{ post.title }}
 date: {{ date }}
 tags: [{{ tags }}]
-author: {{ blog.user.login }}
+author: {{ post.user.login }}
 ---
-{{ &blog.body }}
+{{ &post.body }}
 
 ***
-Sync From: {{ &blog.html_url }}
+Sync From: {{ &post.html_url }}
