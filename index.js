@@ -10,24 +10,34 @@ const rp = require('request-promise');
 
 const debug = require('debug')('githubIssue2Blog');
 
-exports.writeFiles = function writeFiles(templateFile, dir, posts) {
+function getPinyinTitle(title) {
+  const pinyinTitle = pinyin(title, {
+    style: pinyin.STYLE_NORMAL,
+  });
+
+  return pinyinTitle
+    .map(t => t[0]).join('-')
+    .replace(/\s/g, '-')
+    .toLowerCase();
+}
+
+function getEnTitleFromBody(body) {
+  const enTitle = body.match(/<!--\s+en_title:\s*([^\s]+)\s+-->/i);
+  return enTitle && enTitle[1]
+}
+
+exports.renderMDFiles = function renderMDFiles(templateFile, posts) {
   const template = fs.readFileSync(templateFile).toString();
   Mustache.parse(template);
 
-  for (const post of posts) {
+  return posts.map((post) => {
     const tags = post.labels.map(l => l.name).join(',');
     const date = moment(post.created_at).format('YYYY-MM-DD HH:mm:ss');
 
-    const pinyinTitle = pinyin(post.title, {
-      style: pinyin.STYLE_NORMAL,
-    });
+    const enTitle = getEnTitleFromBody(post.body);
+    const pinyinTitle = getPinyinTitle(post.title);
 
-    const title = pinyinTitle
-      .map(t => t[0]).join('-')
-      .replace(/\s/g, '-')
-      .toLowerCase();
-
-    console.log('Title', post.title, title);
+    debug('Title', post.title, pinyinTitle, enTitle);
 
     const content = Mustache.render(
       template, {
@@ -37,7 +47,16 @@ exports.writeFiles = function writeFiles(templateFile, dir, posts) {
       }
     );
 
-    fs.writeFileSync(`${dir}/${title}.md`, pangu.spacing(content));
+    return {
+      title: enTitle || pinyinTitle,
+      content: pangu.spacing(content),
+    };
+  });
+}
+
+exports.writeFiles = function writeFiles(dir, renderedFiles) {
+  for (const rendered of renderedFiles) {
+    fs.writeFileSync(`${dir}/${rendered.title}.md`, rendered.content);
   }
 }
 

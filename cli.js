@@ -49,7 +49,7 @@ issue2Hexo.getIssues(program.user, program.repo)
     console.log(`Using template ${templateFile}`);
 
     debug(`Write to dir ${dir}`);
-    return issue2Hexo.writeFiles(templateFile, dir, posts);
+    return issue2Hexo.writeFiles(dir, issue2Hexo.renderMDFiles(templateFile, posts));
   })
   .then(() => {
     console.log('Done');
