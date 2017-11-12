@@ -60,14 +60,19 @@ exports.writeFiles = function writeFiles(dir, renderedFiles) {
   }
 }
 
-exports.getIssues = async function getIssues(user, repo) {
-  const url = `https://api.github.com/repos/${user}/${repo}/issues`;
-  return await _getIssues(url);
+exports.getIssues = async function getIssues(params) {
+  const url = `https://api.github.com/repos/${params.user}/${params.repo}/issues`;
+  const qs = {};
+  if (params.since) {
+    qs.since = moment(params.since).toISOString();
+  }
+  return await _getIssues(url, qs);
 };
 
-async function _getIssues(url) {
+async function _getIssues(url, qs) {
   const response = await rp.get({
     url,
+    qs,
     headers: {
       'User-Agent': 'node',
       'Accept': 'application/vnd.github.v3+json'
@@ -75,8 +80,14 @@ async function _getIssues(url) {
     json: true,
     resolveWithFullResponse: true,
   });
+  if (response.statusCode >= 400) {
+    throw new Error(response.body);
+  }
 
   let issues = response.body;
+  if (!response.headers.link) {
+    return issues;
+  }
 
   const matches = response.headers.link.match(/<([^>]+)>; rel="(\w+)"/);
   let nextUrl;
@@ -87,7 +98,7 @@ async function _getIssues(url) {
   }
 
   if (nextUrl) {
-    issues = issues.concat(await _getIssues(nextUrl));
+    issues = issues.concat(await _getIssues(nextUrl, qs));
   }
 
   debug(`Get issues length: ${issues.length}`);

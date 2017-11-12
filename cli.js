@@ -33,13 +33,14 @@ program
   })
   .option('-u, --user [user]', 'User name')
   .option('-r, --repo [repo]', 'Repo name')
+  .option('--since [since]', 'Issues updated at or after this time are returned. Direct pass to moment')
   .option('-d, --dir [dir]', 'Output dir, default: "source/_posts/"', String, 'source/_posts/')
   .option('-t, --template [filePath]', 'Template file path')
   .parse(process.argv);
 
 debug(`Args: user ${program.user}, repo ${program.repo}`);
 
-issue2Hexo.getIssues(program.user, program.repo)
+issue2Hexo.getIssues(program)
   .then((posts) => {
     const dir = path.resolve(program.dir);
     let templateFile = defaultTemplateFile;

@@ -19,7 +19,7 @@ Convert your blog:
 
 ```shell
 cd /path/to/hexo-blog-source/
-github-issues-to-hexo -u github-username -u github-repo
+github-issues-to-hexo -u github-username -u github-repo --since 2017-09-01
 ```
 
 Using template:
