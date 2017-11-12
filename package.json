@@ -19,7 +19,7 @@
     "gi2hexo": "cli.js"
   },
   "engines": {
-    "node": ">=7"
+    "node": ">=8"
   },
   "preferGlobal": true,
   "homepage": "https://github.com/xizhibei/github-issues-to-hexo",
