@@ -1,6 +1,6 @@
 {
   "name": "github-issues-to-hexo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Convert github issues blog to hexo blog",
   "main": "index.js",
   "scripts": {
