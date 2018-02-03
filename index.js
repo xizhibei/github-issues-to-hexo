@@ -65,6 +65,11 @@ exports.writeFiles = function writeFiles(dir, renderedFiles) {
 exports.getIssues = async function getIssues(params) {
   const url = `https://api.github.com/repos/${params.user}/${params.repo}/issues`;
   const qs = {};
+
+  if (!params.allowOtherUsers) {
+    qs.creator = params.user;
+  }
+
   if (params.since) {
     qs.since = moment(params.since).toISOString();
   }

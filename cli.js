@@ -34,6 +34,7 @@ program
   .option('-u, --user [user]', 'User name')
   .option('-r, --repo [repo]', 'Repo name')
   .option('--since [since]', 'Issues updated at or after this time are returned. Direct pass to moment')
+  .option('--allowOtherUsers', 'Allow converting issues created by other users', Boolean, false)
   .option('-d, --dir [dir]', 'Output dir, default: "source/_posts/"', String, 'source/_posts/')
   .option('-t, --template [filePath]', 'Template file path')
   .parse(process.argv);
