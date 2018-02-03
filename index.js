@@ -33,6 +33,7 @@ exports.renderMDFiles = function renderMDFiles(templateFile, posts) {
   return posts.map((post) => {
     const tags = post.labels.map(l => l.name).join(',');
     const date = moment(post.created_at).format('YYYY-MM-DD HH:mm:ss');
+    const updated = moment(post.updated_at).format('YYYY-MM-DD HH:mm:ss');
 
     const enTitle = getEnTitleFromBody(post.body);
     const pinyinTitle = getPinyinTitle(post.title);
@@ -42,6 +43,7 @@ exports.renderMDFiles = function renderMDFiles(templateFile, posts) {
     const content = Mustache.render(
       template, {
         date,
+        updated,
         tags,
         post,
       }
