@@ -4,11 +4,14 @@ const fs = require('fs');
 
 const moment = require('moment');
 const pinyin = require('pinyin');
-const pangu = require('pangu');
+const remark = require('remark');
+const pangu = require('remark-pangu');
 const Mustache = require('mustache');
 const rp = require('request-promise');
 
 const debug = require('debug')('githubIssue2Blog');
+
+const markpangu = remark().use(pangu);
 
 function getPinyinTitle(title) {
   const pinyinTitle = pinyin(title, {
@@ -40,6 +43,8 @@ exports.renderMDFiles = function renderMDFiles(templateFile, posts) {
 
     debug('Title', post.title, pinyinTitle, enTitle);
 
+    post.body = markpangu.processSync(post.body).contents;
+
     const content = Mustache.render(
       template, {
         date,
@@ -51,7 +56,7 @@ exports.renderMDFiles = function renderMDFiles(templateFile, posts) {
 
     return {
       title: enTitle || pinyinTitle,
-      content: pangu.spacing(content),
+      content,
     };
   });
 }
